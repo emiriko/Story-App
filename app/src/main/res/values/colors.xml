@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#121212</color>
+    <color name="colorOnPrimary">#13448f</color>
+    <color name="bottomNavBackground">#1f2024</color>
+    <color name="bottomNavIconColor">#dfdfe1</color>
+    <color name="bottomNavIconColorSelected">#e2e9f7</color>
+    <color name="itemHoverColor">#13448f</color>
+    <color name="bottomNavTextColor">#e9eaed</color>
+    <color name = "bottomNavGlobalNotSelected"> #8c8c8c </color>
+    
+    <color name="red_normal"> #FF0000 </color>
+    
+    <color name="linen">#F8F0E5</color>
+    <color name="pearl">#EADBC8</color>
+    <color name="dark_vanilla">#DAC0A3</color>
+    <color name="space_cadet">#102C57</color>
+    <color name="disabled">#888888</color>
+</resources>

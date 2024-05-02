@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="settings">Settings</string>
+    <string name="theme">Theme</string>
+    <string name="dark_mode">Dark Mode\n</string>
+    <string name="language">Language</string>
+    <string name="warning"> Warning </string>
+    <string name="getting_started">Getting Started</string>
+    <string name="description_1"> Explore captivating tales from thrilling adventures to heartwarming romances, all in one app. With easy navigation and immersive visuals, it\'s the perfect escape for every reader. Dive in and get lost in the magic of storytelling today. </string>
+    <string name="description_2"> Stories in this app are only preserved for 1 hour. Make sure to read them promptly to avoid missing out on the magic. </string>
+    <string name="description_3"> Getting started with our app is simple! Choose to register or login to unlock a world of captivating stories at your fingertips. With just a few taps, you\'ll be on your way to diving into thrilling adventures, heartwarming romances, and much more. </string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="register_image">Register Image</string>
+    <string name="fill_your_password">Fill your Password</string>
+    <string name="fill_your_email">Enter your Email.</string>
+    <string name="fill_your_name">Enter your Name.</string>
+    <string name="password_error">Password must be at least 8 characters long.</string>
+    <string name="empty_field_error">This field is required.</string>
+    <string name="email_error">Invalid email format.</string>
+    <string name="login_image">Image Login</string>
+
+    <string-array name="language_item">
+        <item>English</item>
+        <item>Indonesia</item>
+    </string-array>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="title_home">Beranda</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifikasi</string>
+    <string name="settings">Pengaturan</string>
+    <string name="theme">Tema</string>
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="language">Bahasa</string>
+    <string name="warning"> Peringatan </string>
+    <string name="getting_started"> Permulaan </string>
+    <string name="description_1"> Telusuri kisah-kisah menarik mulai dari petualangan seru hingga romansa yang menyentuh hati, semuanya dalam satu aplikasi. Dengan navigasi yang mudah dan visual yang memukau, ini adalah pelarian sempurna untuk setiap pembaca. Mari tenggelam dan terlarut dalam keajaiban bercerita hari ini. </string>
+    <string name="description_2"> Seluruh cerita dalam aplikasi ini hanya akan disimpan selama 1 jam. Pastikan untuk membacanya dengan segera agar tidak melewatkan keajaibannya. Selamat menikmati petualangan membaca Anda! </string>
+    <string name="description_3">Memulai aplikasi kami sangatlah mudah! Pilih untuk mendaftar atau masuk untuk membuka dunia cerita menawan di ujung jari Anda. Hanya dengan beberapa ketukan, Anda akan segera terjun ke dalam petualangan yang mendebarkan, kisah cinta yang mengharukan, dan banyak lagi.</string>
+    <string name="register">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="name">Nama</string>
+    <string name="password">Kata Sandi</string>
+    <string name="email">Email</string>
+    <string name="register_image">Gambar Daftar</string>
+    <string name="fill_your_password">Masukkan kata sandi anda.</string>
+    <string name="fill_your_email">Masukkan email anda.</string>
+    <string name="fill_your_name">Masukkan nama anda.</string>
+    <string name="password_error">Panjang password setidaknya harus 8 karakter </string>
+    <string name="empty_field_error">Bagian ini harus diisi.</string>
+    <string name="email_error">Format email salah.</string>
+    <string name="login_image">Gambar Login</string>
+</resources>
