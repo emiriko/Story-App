@@ -5,23 +5,23 @@
         <item name="colorPrimary">@color/linen</item>
         <item name="colorPrimaryVariant">@color/space_cadet</item>
         <item name="colorOnPrimary">@color/dark_vanilla</item>
-        <item name = "colorPrimaryContainer"> @color/linen </item>
+        <item name="colorPrimaryContainer">@color/linen</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/linen</item>
-        
+
         <!-- Bottom Nav Background. -->
         <item name="bottomNavigationStyle">@style/MyBottomNavigation</item>
 
         <item name="toolbarStyle">@style/MyToolbarStyle</item>
     </style>
-    
+
     <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <!-- Customize the focused border color -->
         <item name="boxStrokeColor">@color/bottomNavGlobalNotSelected</item>
-        <item name="hintTextColor"> @color/bottomNavGlobalNotSelected </item>
-        <item name="android:textCursorDrawable"> @drawable/text_cursor </item>
+        <item name="hintTextColor">@color/bottomNavGlobalNotSelected</item>
+        <item name="android:textCursorDrawable">@drawable/text_cursor</item>
     </style>
-    
+
     <style name="MyBottomNavigation" parent="Widget.Design.BottomNavigationView">
         <item name="android:background">@color/pearl</item>
     </style>
@@ -29,5 +29,20 @@
     <style name="MyToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
         <!-- Customize text color -->
         <item name="android:textColor">@color/space_cadet</item>
+    </style>
+
+    <style name="Theme.StoryApp.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+        <!-- Radius of the outer bound of widgets to make the rounded corners -->
+        <item name="appWidgetRadius">16dp</item>
+        <!--
+        Radius of the inner view's bound of widgets to make the rounded corners.
+        It needs to be 8dp or less than the value of appWidgetRadius
+        -->
+        <item name="appWidgetInnerRadius">8dp</item>
+    </style>
+
+    <style name="Theme.StoryApp.AppWidgetContainer" parent="Theme.StoryApp.AppWidgetContainerParent">
+        <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
+        <item name="appWidgetPadding">16dp</item>
     </style>
 </resources>

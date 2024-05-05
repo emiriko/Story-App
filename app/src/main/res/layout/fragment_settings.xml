@@ -6,30 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.settings.SettingsFragment">
 
-    <TextView
-        android:id="@+id/themeTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:contentDescription="@string/dark_mode"
+        android:id="@+id/icon_dark_mode"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/theme"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:src="@drawable/ic_dark_mode_24"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        android:padding="2dp"
+        />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:paddingTop="16dp"
         android:text="@string/dark_mode"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/themeTitle"
-        />
+        app:layout_constraintStart_toEndOf="@id/icon_dark_mode"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/divider_line"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch_theme"
@@ -44,8 +43,12 @@
         android:id="@+id/divider_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switch_theme" />
 
     <TextView
@@ -72,4 +75,59 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/languageTitle" />
+
+    <View
+        android:id="@+id/divider_line_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/language" />
+
+    <LinearLayout
+        android:id="@+id/action_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/divider_line_2"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:clickable="true"
+        tools:ignore="UseCompoundDrawables"
+        android:focusable="true"> 
+    <ImageView
+        android:contentDescription="@string/logout"
+        android:id="@+id/icon_logout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_logout_24"
+        android:padding="2dp"
+        />
+
+    <TextView
+        android:id="@+id/title_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/logout"
+        app:layout_constraintStart_toEndOf="@id/icon_logout"
+        app:layout_constraintTop_toBottomOf="@id/divider_line_2"
+        tools:layout_constraintTop_toTopOf="@id/divider_line_2" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/chevron"
+            android:src="@drawable/ic_chevron_right_24"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

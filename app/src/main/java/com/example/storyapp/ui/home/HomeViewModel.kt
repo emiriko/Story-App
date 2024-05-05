@@ -1,13 +1,24 @@
 package com.example.storyapp.ui.home
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.storyapp.data.remote.StoryRepository
+import com.example.storyapp.data.remote.model.UserModel
+import com.example.storyapp.preferences.UserPreferences
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+class HomeViewModel(private val storyRepository: StoryRepository, private val storyPreferences: UserPreferences) : ViewModel() {
+    
+    fun getAllStories() = storyRepository.getAllStories()
+    fun getUserSession(): LiveData<UserModel> {
+        return storyPreferences.getUserSession().asLiveData()
     }
-    val text: LiveData<String> = _text
+    
+    fun logout() {
+        viewModelScope.launch { 
+            storyPreferences.logout()
+        }
+    }
 }

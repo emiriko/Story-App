@@ -1,9 +1,10 @@
 package com.example.storyapp.ui.settings
 
-import androidx.fragment.app.viewModels
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +14,26 @@ import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.storyapp.R
 import com.example.storyapp.databinding.FragmentSettingsBinding
 import com.example.storyapp.ui.ViewModelFactory
+import com.example.storyapp.ui.home.HomeViewModel
 import com.example.storyapp.utils.Helper
 import java.util.Locale
+
 
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
+    private val settingsViewModel by viewModels<SettingsViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
+    private val homeViewModel by viewModels<HomeViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,12 +55,6 @@ class SettingsFragment : Fragment() {
         var check = 0
         
         binding.language.adapter = adapter
-        
-        val factory = ViewModelFactory.getInstance(requireContext())
-        
-        val settingsViewModel: SettingsViewModel by viewModels {
-            factory
-        }
 
         settingsViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
             binding.switchTheme.isChecked = isDarkModeActive
@@ -69,7 +74,21 @@ class SettingsFragment : Fragment() {
             switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
                 settingsViewModel.saveThemeSetting(isChecked)
             }
-            
+
+            actionLogout.setOnClickListener {
+                val scale: Animator = ObjectAnimator.ofPropertyValuesHolder(
+                    it,
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 1.05f, 1f),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.05f, 1f)
+                )
+                scale.setDuration(1000)
+                scale.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        homeViewModel.logout()
+                    }
+                })
+                scale.start()
+            }
             
             language.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(

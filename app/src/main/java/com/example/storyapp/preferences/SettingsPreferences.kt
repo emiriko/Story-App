@@ -1,4 +1,4 @@
-package com.example.storyapp.ui.settings
+package com.example.storyapp.preferences
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences

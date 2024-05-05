@@ -1,16 +1,33 @@
 package com.example.storyapp.ui.register
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.storyapp.R
+import com.example.storyapp.data.Result
+import com.example.storyapp.data.remote.dto.RegisterDTO
 import com.example.storyapp.databinding.ActivityRegisterBinding
+import com.example.storyapp.ui.ViewModelFactory
+import com.example.storyapp.ui.login.LoginActivity
+import com.example.storyapp.utils.capitalized
+import com.google.android.material.snackbar.Snackbar
+
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
+    
+    private val viewModel by viewModels<RegisterViewModel> { 
+        ViewModelFactory.getInstance(this)
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,11 +53,50 @@ class RegisterActivity : AppCompatActivity() {
             }
             
             btnRegister.setOnClickListener {
-                // TODO: Implement register functionality.
+                val body = RegisterDTO(name = edRegisterName.text.toString(), email = edRegisterEmail.text.toString(), password = edRegisterPassword.text.toString())
+                hideKeyboard()
+                registerUser(body)
             }
         }
     }
     
+    private fun hideKeyboard() {
+        val view: View? = currentFocus
+        if (view != null) {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+    private fun registerUser(body: RegisterDTO) {
+        viewModel.register(body).observe(this) { result ->
+            if(result != null) { 
+                when (result) {
+                    is Result.Success -> {
+                        showLoading(false)
+                        Snackbar.make(binding.root, getString(R.string.register_success), Snackbar.LENGTH_SHORT).show()
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
+                    is Result.Loading -> {
+                        showLoading(true)
+                        binding.btnRegister.isEnabled = false
+                    }
+                    is Result.Error -> {
+                        showLoading(false)
+                        enableButton()
+                        Snackbar.make(binding.root, result.error.capitalized(), Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+    
+    private fun showLoading(loading: Boolean) {
+        with(binding) {
+            loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE
+            overlayView.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
     private fun enableButton() {
         with(binding) {
             btnRegister.isEnabled = when {

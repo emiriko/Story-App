@@ -43,6 +43,7 @@ androidx-room = { group = "androidx.room", name = "room-runtime", version = "2.5
 androidx-roomCompiler = { group = "androidx.room", name = "room-compiler", version = "2.5.2" }
 androidx-roomKtx = { group = "androidx.room", name = "room-ktx", version = "2.4.0" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+lottie = { group = "com.airbnb.android", name = "lottie", version = "4.1.0" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -15,6 +15,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_BASE_URL", "\"https://story-api.dicoding.dev/v1/\"")
     }
 
     buildTypes {
@@ -35,6 +37,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -42,7 +45,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -53,15 +55,17 @@ dependencies {
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.room)
     implementation(libs.androidx.roomKtx)
+    implementation(libs.androidx.activity)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.material)
     implementation(libs.retrofit)
     implementation(libs.retrofitGson)
     implementation(libs.glide)
     implementation(libs.circleimageview)
     implementation(libs.loggingInterceptor)
     implementation(libs.datastore.preferences)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.androidx.activity)
-
+    implementation(libs.lottie)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
