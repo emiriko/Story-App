@@ -55,7 +55,6 @@ class UploadActivity : AppCompatActivity() {
             showImage()
             enableButton()
         } else {
-            Log.d("Photo Picker", "No media selected")
         }
     }
 

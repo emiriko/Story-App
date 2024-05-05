@@ -40,9 +40,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val detailId = intent.getStringExtra(DETAIL_ID)
-
-        Log.d("DetailActivity", "Detail ID: $detailId")
-
+        
         if (detailId != null) {
             viewModel.getDetailStory(detailId).observe(this) { result ->
                 if (result != null) {

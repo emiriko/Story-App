@@ -46,8 +46,6 @@ class StackRemoteViewsFactory(private val mContext: Context) :
     override fun getCount(): Int = mWidgetItems.size
 
     override fun getViewAt(position: Int): RemoteViews {
-        Log.d("Widget", "getViewAt: $position")
-        Log.d("Widget", "getViewAt: ${mWidgetItems[position].photoUrl}")
         val rv = RemoteViews(mContext.packageName, R.layout.widget_item)
         try {
             val bitmap: Bitmap = Glide.with(mContext.applicationContext)

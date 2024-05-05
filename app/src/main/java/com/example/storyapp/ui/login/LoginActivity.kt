@@ -80,7 +80,6 @@ class LoginActivity : AppCompatActivity() {
                             Snackbar.LENGTH_SHORT
                         ).show()
                         enableButton()
-                        Log.d("LoginActivity", "Error: ${result.error}")
                     }
 
                     is Result.Loading -> {
