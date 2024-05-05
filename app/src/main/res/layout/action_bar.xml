@@ -13,6 +13,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="?attr/colorPrimaryVariant"
-        android:text="@string/title_home" />
+        android:text="@string/app_name" />
 
 </LinearLayout>
