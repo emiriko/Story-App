@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
@@ -17,14 +16,15 @@ import com.example.storyapp.databinding.ActivityDetailBinding
 import com.example.storyapp.ui.ViewModelFactory
 
 class DetailActivity : AppCompatActivity() {
-    
+
     private val viewModel by viewModels<DetailViewModel> {
         ViewModelFactory.getInstance(this)
     }
-    
+
     private val binding by lazy {
         ActivityDetailBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -38,11 +38,11 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar?.setCustomView(R.layout.action_bar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        
+
         val detailId = intent.getStringExtra(DETAIL_ID)
 
         Log.d("DetailActivity", "Detail ID: $detailId")
-        
+
         if (detailId != null) {
             viewModel.getDetailStory(detailId).observe(this) { result ->
                 if (result != null) {
@@ -50,6 +50,7 @@ class DetailActivity : AppCompatActivity() {
                         is Result.Loading -> {
                             showLoading(true)
                         }
+
                         is Result.Success -> {
                             Glide.with(binding.root).load(result.data.story?.photoUrl) // URL Gambar
                                 .into(binding.ivDetailPhoto)
@@ -57,6 +58,7 @@ class DetailActivity : AppCompatActivity() {
                             binding.tvDetailDescription.text = result.data.story?.description
                             showLoading(false)
                         }
+
                         is Result.Error -> {
                             binding.bookImage.visibility = View.VISIBLE
                             binding.noStoryFoundText.visibility = View.VISIBLE
@@ -67,7 +69,7 @@ class DetailActivity : AppCompatActivity() {
             }
         }
     }
-    
+
     private fun showLoading(loading: Boolean) {
         with(binding) {
             loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE
@@ -79,6 +81,7 @@ class DetailActivity : AppCompatActivity() {
         finish()
         return super.onSupportNavigateUp()
     }
+
     companion object {
         const val DETAIL_ID = "detail_id"
     }

@@ -2,7 +2,6 @@ package com.example.storyapp.ui.register
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
@@ -23,11 +22,11 @@ import com.google.android.material.snackbar.Snackbar
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
-    
-    private val viewModel by viewModels<RegisterViewModel> { 
+
+    private val viewModel by viewModels<RegisterViewModel> {
         ViewModelFactory.getInstance(this)
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,7 +39,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         supportActionBar?.hide()
-        
+
         with(binding) {
             edRegisterEmail.addTextChangedListener {
                 enableButton()
@@ -51,15 +50,19 @@ class RegisterActivity : AppCompatActivity() {
             edRegisterName.addTextChangedListener {
                 enableButton()
             }
-            
+
             btnRegister.setOnClickListener {
-                val body = RegisterDTO(name = edRegisterName.text.toString(), email = edRegisterEmail.text.toString(), password = edRegisterPassword.text.toString())
+                val body = RegisterDTO(
+                    name = edRegisterName.text.toString(),
+                    email = edRegisterEmail.text.toString(),
+                    password = edRegisterPassword.text.toString()
+                )
                 hideKeyboard()
                 registerUser(body)
             }
         }
     }
-    
+
     private fun hideKeyboard() {
         val view: View? = currentFocus
         if (view != null) {
@@ -67,36 +70,48 @@ class RegisterActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
+
     private fun registerUser(body: RegisterDTO) {
         viewModel.register(body).observe(this) { result ->
-            if(result != null) { 
+            if (result != null) {
                 when (result) {
                     is Result.Success -> {
                         showLoading(false)
-                        Snackbar.make(binding.root, getString(R.string.register_success), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.register_success),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
                     }
+
                     is Result.Loading -> {
                         showLoading(true)
                         binding.btnRegister.isEnabled = false
                     }
+
                     is Result.Error -> {
                         showLoading(false)
                         enableButton()
-                        Snackbar.make(binding.root, result.error.capitalized(), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            result.error.capitalized(),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
         }
     }
-    
+
     private fun showLoading(loading: Boolean) {
         with(binding) {
             loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE
             overlayView.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
+
     private fun enableButton() {
         with(binding) {
             btnRegister.isEnabled = when {

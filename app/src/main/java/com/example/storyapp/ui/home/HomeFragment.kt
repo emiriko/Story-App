@@ -21,9 +21,9 @@ class HomeFragment : Fragment() {
     private val homeViewModel by viewModels<HomeViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
-    
+
     private var _binding: FragmentHomeBinding? = null
-    
+
     private val binding get() = _binding as FragmentHomeBinding
 
     override fun onCreateView(
@@ -42,24 +42,28 @@ class HomeFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         binding.rvStories.layoutManager = layoutManager
 
-        homeViewModel.getAllStories().observe(viewLifecycleOwner) { result -> 
-            if(result != null) {
-                when(result) {
+        homeViewModel.getAllStories().observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
                     is Result.Loading -> {
                         showLoading(true)
                     }
+
                     is Result.Success -> {
                         val stories = result.data.listStory
 
-                        binding.bookImage.visibility = if(stories.isEmpty()) View.VISIBLE else View.GONE 
-                        binding.noStoryFoundText.visibility = if(stories.isEmpty()) View.VISIBLE else View.GONE
+                        binding.bookImage.visibility =
+                            if (stories.isEmpty()) View.VISIBLE else View.GONE
+                        binding.noStoryFoundText.visibility =
+                            if (stories.isEmpty()) View.VISIBLE else View.GONE
 
                         stories.let { list ->
                             val adapter = StoryAdapter()
                             adapter.submitList(list)
                             binding.rvStories.adapter = adapter
-                            
-                            adapter.setOnItemClickCallback(object: StoryAdapter.OnItemClickCallback{
+
+                            adapter.setOnItemClickCallback(object :
+                                StoryAdapter.OnItemClickCallback {
                                 override fun onItemClicked(data: ListStoryItem) {
                                     val intent = Intent(context, DetailActivity::class.java)
                                     intent.putExtra(DetailActivity.DETAIL_ID, data.id)
@@ -67,14 +71,19 @@ class HomeFragment : Fragment() {
                                 }
                             })
                         }
-                        
+
                         showLoading(false)
                     }
+
                     is Result.Error -> {
                         showLoading(false)
                         binding.bookImage.visibility = View.VISIBLE
                         binding.noStoryFoundText.visibility = View.VISIBLE
-                        Snackbar.make(binding.root, result.error.capitalized(), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            result.error.capitalized(),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -87,7 +96,7 @@ class HomeFragment : Fragment() {
             overlayView.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
-    
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

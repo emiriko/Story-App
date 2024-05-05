@@ -19,25 +19,26 @@ class OnboardingActivity : AppCompatActivity(), View.OnClickListener {
         enableEdgeToEdge()
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
         supportActionBar?.hide()
-        
+
         binding.register.setOnClickListener(this)
         binding.login.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
         if (view != null) {
-            when(view.id) {
+            when (view.id) {
                 R.id.register -> {
                     startActivity(Intent(this, RegisterActivity::class.java))
                 }
+
                 R.id.login -> {
                     startActivity(Intent(this, LoginActivity::class.java))
                 }

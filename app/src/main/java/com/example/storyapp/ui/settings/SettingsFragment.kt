@@ -34,6 +34,7 @@ class SettingsFragment : Fragment() {
     private val homeViewModel by viewModels<HomeViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,10 +43,10 @@ class SettingsFragment : Fragment() {
 
         return binding.root
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         // Dropdown
         val adapter = ArrayAdapter(
             requireContext(),
@@ -53,7 +54,7 @@ class SettingsFragment : Fragment() {
             resources.getStringArray(R.array.language_item)
         )
         var check = 0
-        
+
         binding.language.adapter = adapter
 
         settingsViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
@@ -65,8 +66,8 @@ class SettingsFragment : Fragment() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
-        
-        settingsViewModel.getLanguageSettings().observe(viewLifecycleOwner) { language -> 
+
+        settingsViewModel.getLanguageSettings().observe(viewLifecycleOwner) { language ->
             binding.language.setSelection(Helper.mapLanguageToPosition(language))
         }
 
@@ -89,7 +90,7 @@ class SettingsFragment : Fragment() {
                 })
                 scale.start()
             }
-            
+
             language.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(
                     arg0: AdapterView<*>?,
@@ -97,7 +98,7 @@ class SettingsFragment : Fragment() {
                     arg2: Int,
                     arg3: Long
                 ) {
-                    if(check < 1) {
+                    if (check < 1) {
                         check++
                         return
                     }
@@ -114,5 +115,5 @@ class SettingsFragment : Fragment() {
             }
         }
     }
-    
+
 }

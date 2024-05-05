@@ -14,16 +14,16 @@ object Injection {
     fun provideSettingsPreferences(context: Context): SettingsPreferences {
         return SettingsPreferences.getInstance(context.dataStore)
     }
-    
+
     fun provideUserPreferences(context: Context): UserPreferences {
         return UserPreferences.getInstance(context.userDataStore)
     }
-    
+
     fun provideStoryRepository(context: Context): StoryRepository {
         val preferences = provideUserPreferences(context)
         val user = runBlocking { preferences.getUserSession().first() }
         val storyService = APIConfig.getStoryService(user.token)
-        
+
         return StoryRepository.getInstance(storyService)
     }
 }

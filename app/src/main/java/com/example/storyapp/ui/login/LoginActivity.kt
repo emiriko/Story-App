@@ -26,21 +26,21 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
         supportActionBar?.hide()
-        
+
         with(binding) {
             edLoginEmail.addTextChangedListener {
                 enableButton()
@@ -48,15 +48,18 @@ class LoginActivity : AppCompatActivity() {
             edLoginPassword.addTextChangedListener {
                 enableButton()
             }
-            
+
             btnLogin.setOnClickListener {
-                val body = LoginDTO(email = edLoginEmail.text.toString(), password = edLoginPassword.text.toString())
+                val body = LoginDTO(
+                    email = edLoginEmail.text.toString(),
+                    password = edLoginPassword.text.toString()
+                )
                 hideKeyboard()
                 login(body)
             }
         }
     }
-    
+
     private fun hideKeyboard() {
         val view: View? = currentFocus
         if (view != null) {
@@ -64,24 +67,32 @@ class LoginActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
+
     private fun login(body: LoginDTO) {
         viewModel.login(body).observe(this) { result ->
-            if(result != null) {
-                when(result) {
+            if (result != null) {
+                when (result) {
                     is Result.Error -> {
                         showLoading(false)
-                        Snackbar.make(binding.root, result.error.capitalized(), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            result.error.capitalized(),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         enableButton()
                         Log.d("LoginActivity", "Error: ${result.error}")
                     }
+
                     is Result.Loading -> {
                         binding.btnLogin.isEnabled = false
                         showLoading(true)
                     }
+
                     is Result.Success -> {
                         showLoading(false)
                         val intent = Intent(this, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(intent)
                     }
                 }
@@ -95,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
             overlayView.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
-    
+
     private fun enableButton() {
         with(binding) {
             btnLogin.isEnabled = when {

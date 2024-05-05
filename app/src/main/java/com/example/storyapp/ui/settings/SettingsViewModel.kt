@@ -7,24 +7,24 @@ import androidx.lifecycle.viewModelScope
 import com.example.storyapp.preferences.SettingsPreferences
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val preferences: SettingsPreferences): ViewModel() {
+class SettingsViewModel(private val preferences: SettingsPreferences) : ViewModel() {
     fun getThemeSettings(): LiveData<Boolean> {
-        
+
         return preferences.getThemeSetting().asLiveData()
     }
-    
+
     fun getLanguageSettings(): LiveData<String> {
         return preferences.getLanguageSetting().asLiveData()
     }
-    
+
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
             preferences.saveThemeSetting(isDarkModeActive)
         }
     }
-    
+
     fun saveLanguageSetting(language: String) {
-        viewModelScope.launch { 
+        viewModelScope.launch {
             preferences.saveLanguageSetting(language)
         }
     }

@@ -3,7 +3,6 @@ package com.example.storyapp.data.remote.api
 import com.example.storyapp.data.remote.response.AddNewStoryResponse
 import com.example.storyapp.data.remote.response.DetailStoryResponse
 import com.example.storyapp.data.remote.response.GetAllStoriesResponse
-import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.data.remote.response.LoginResponse
 import com.example.storyapp.data.remote.response.RegisterResponse
 import okhttp3.MultipartBody
@@ -41,10 +40,10 @@ interface StoryService {
         @Part photo: MultipartBody.Part,
         @Part("description") description: RequestBody,
     ): AddNewStoryResponse
-    
+
     @GET("stories")
     suspend fun getAllStories(): GetAllStoriesResponse
-    
+
     @GET("stories/{id}")
     suspend fun getDetailStory(
         @Path("id") id: String

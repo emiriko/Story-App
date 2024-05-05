@@ -37,7 +37,7 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
                 .into(binding.ivItemPhoto)
             binding.tvItemDescription.text = item.description
             binding.tvItemName.text = item.name
-            
+
             binding.btnDescription.setOnClickListener {
                 onItemClickCallback.onItemClicked(item)
             }
@@ -50,7 +50,10 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ListStoryItem,
+                newItem: ListStoryItem
+            ): Boolean {
                 return oldItem == newItem
             }
         }

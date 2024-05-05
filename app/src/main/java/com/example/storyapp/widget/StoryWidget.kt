@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.widget.RemoteViews
-import android.widget.Toast
 import androidx.core.net.toUri
 import com.example.storyapp.R
 import com.example.storyapp.ui.detail.DetailActivity
@@ -34,15 +33,17 @@ class StoryWidget : AppWidgetProvider() {
                 val intentActivity = Intent(context, DetailActivity::class.java)
                 val itemId = intent.getStringExtra(ITEM_ID)
                 intentActivity.putExtra(DetailActivity.DETAIL_ID, itemId)
-                
-                val pendingIntentActivity = PendingIntent.getActivity(context, 0, intentActivity, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-                else 0)
+
+                val pendingIntentActivity = PendingIntent.getActivity(
+                    context, 0, intentActivity, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                    else 0
+                )
                 pendingIntentActivity.send()
             }
         }
     }
-    
+
     override fun onEnabled(context: Context) {
         // Enter relevant functionality for when the first widget is created
     }
@@ -54,19 +55,25 @@ class StoryWidget : AppWidgetProvider() {
     companion object {
         private const val ITEM_CLICKED = "com.example.storyapp.ITEM_CLICKED"
         const val ITEM_ID = "com.example.storyapp.EXTRA_ITEM"
+
         //pindahkan fungsi ini ke companion object, karena kita akan memanggil fungsi ini dari luar kelas
-        private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+        private fun updateAppWidget(
+            context: Context,
+            appWidgetManager: AppWidgetManager,
+            appWidgetId: Int
+        ) {
             val intent = Intent(context, StackWidgetService::class.java)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             intent.data = intent.toUri(Intent.URI_INTENT_SCHEME).toUri()
             val views = RemoteViews(context.packageName, R.layout.story_widget)
             views.setRemoteAdapter(R.id.stack_view, intent)
             views.setEmptyView(R.id.stack_view, R.id.empty_view)
-            
+
             val toastIntent = Intent(context, StoryWidget::class.java)
             toastIntent.action = ITEM_CLICKED
             toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            val toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
+            val toastPendingIntent = PendingIntent.getBroadcast(
+                context, 0, toastIntent,
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
                 else 0

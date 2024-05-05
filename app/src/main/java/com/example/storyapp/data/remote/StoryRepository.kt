@@ -19,16 +19,20 @@ class StoryRepository private constructor(private val storyService: StoryService
     fun register(body: RegisterDTO) = liveData {
         emit(Result.Loading)
         try {
-            val response = storyService.register(name = body.name, email = body.email, password = body.password)
+            val response = storyService.register(
+                name = body.name,
+                email = body.email,
+                password = body.password
+            )
             emit(Result.Success(response))
         } catch (error: HttpException) {
             emit(Result.Error(Helper.getErrorMessage(error)))
         }
     }
-    
-    fun login(body: LoginDTO, preferences: UserPreferences) = liveData { 
+
+    fun login(body: LoginDTO, preferences: UserPreferences) = liveData {
         emit(Result.Loading)
-        
+
         try {
             val response = storyService.login(email = body.email, password = body.password)
             val loginResult = response.loginResult as LoginResult
@@ -38,8 +42,8 @@ class StoryRepository private constructor(private val storyService: StoryService
             emit(Result.Error(Helper.getErrorMessage(error)))
         }
     }
-    
-    fun addNewStory(file: File, description: String) = liveData { 
+
+    fun addNewStory(file: File, description: String) = liveData {
         emit(Result.Loading)
         try {
             val requestBody = description.toRequestBody("text/plain".toMediaType())
@@ -49,7 +53,8 @@ class StoryRepository private constructor(private val storyService: StoryService
                 file.name,
                 requestImageFile
             )
-            val response = storyService.addNewStory(description = requestBody, photo = multipartBody)
+            val response =
+                storyService.addNewStory(description = requestBody, photo = multipartBody)
             emit(Result.Success(response))
         } catch (error: HttpException) {
             emit(Result.Error(Helper.getErrorMessage(error)))
@@ -57,7 +62,7 @@ class StoryRepository private constructor(private val storyService: StoryService
             emit(Result.Error(error.message.toString()))
         }
     }
-    
+
     fun getAllStories() = liveData {
         emit(Result.Loading)
         try {
@@ -67,7 +72,7 @@ class StoryRepository private constructor(private val storyService: StoryService
             emit(Result.Error(Helper.getErrorMessage(e)))
         }
     }
-    
+
     fun getDetailStory(id: String) = liveData {
         emit(Result.Loading)
         try {
@@ -77,12 +82,13 @@ class StoryRepository private constructor(private val storyService: StoryService
             emit(Result.Error(Helper.getErrorMessage(error)))
         }
     }
-    
+
     companion object {
         @Volatile
         private var instance: StoryRepository? = null
-        
-        fun getInstance(storyService: StoryService): StoryRepository = instance ?: synchronized(this) {
+
+        fun getInstance(storyService: StoryService): StoryRepository =
+            instance ?: synchronized(this) {
                 instance ?: StoryRepository(storyService).also { instance = it }
             }
     }

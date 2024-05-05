@@ -19,21 +19,29 @@ class ViewModelFactory private constructor(private val applicationContext: Conte
         SettingsViewModel::class.java -> SettingsViewModel(
             Injection.provideSettingsPreferences(applicationContext)
         ) as T
+
         RegisterViewModel::class.java -> RegisterViewModel(
             Injection.provideStoryRepository(applicationContext)
         ) as T
+
         UploadViewModel::class.java -> UploadViewModel(
             Injection.provideStoryRepository(applicationContext)
         ) as T
+
         DetailViewModel::class.java -> DetailViewModel(
             Injection.provideStoryRepository(applicationContext)
         ) as T
+
         HomeViewModel::class.java -> HomeViewModel(
-            Injection.provideStoryRepository(applicationContext), Injection.provideUserPreferences(applicationContext)
+            Injection.provideStoryRepository(applicationContext),
+            Injection.provideUserPreferences(applicationContext)
         ) as T
+
         LoginViewModel::class.java -> LoginViewModel(
-            Injection.provideStoryRepository(applicationContext), Injection.provideUserPreferences(applicationContext)
+            Injection.provideStoryRepository(applicationContext),
+            Injection.provideUserPreferences(applicationContext)
         ) as T
+
         else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 

@@ -12,7 +12,7 @@ object Helper {
             else -> "en"
         }
     }
-    
+
     fun mapLanguageToPosition(language: String): Int {
         return when (language) {
             "en" -> 0
@@ -20,6 +20,7 @@ object Helper {
             else -> 0
         }
     }
+
     fun getErrorMessage(error: HttpException): String {
         val jsonInString = error.response()?.errorBody()?.string()
         val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)

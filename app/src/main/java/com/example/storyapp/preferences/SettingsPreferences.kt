@@ -1,11 +1,10 @@
 package com.example.storyapp.preferences
 
 import android.content.Context
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -29,18 +28,19 @@ class SettingsPreferences private constructor(private val dataStore: DataStore<P
             preferences[KEY_LANGUAGE] ?: "en"
         }
     }
+
     suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
         dataStore.edit { preferences ->
             preferences[THEME_KEY] = isDarkModeActive
         }
     }
-    
+
     suspend fun saveLanguageSetting(language: String) {
         dataStore.edit { preferences ->
             preferences[KEY_LANGUAGE] = language
         }
     }
-    
+
     companion object {
         @Volatile
         private var INSTANCE: SettingsPreferences? = null

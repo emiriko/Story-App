@@ -46,7 +46,7 @@ class UploadActivity : AppCompatActivity() {
             enableButton()
         }
     }
-    
+
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
@@ -58,6 +58,7 @@ class UploadActivity : AppCompatActivity() {
             Log.d("Photo Picker", "No media selected")
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -74,30 +75,30 @@ class UploadActivity : AppCompatActivity() {
         val tvTitle = supportActionBar?.customView?.findViewById<TextView>(R.id.tvTitle)
         tvTitle?.text = getString(R.string.upload)
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             val savedImageUri = savedInstanceState.getParcelable(KEY_IMAGE_URI) as Uri?
             binding.previewImage.setImageURI(savedImageUri)
         }
-        
+
         with(binding) {
-            edAddDescription.addTextChangedListener { 
+            edAddDescription.addTextChangedListener {
                 enableButton()
             }
-            
+
             btnGallery.setOnClickListener {
                 startGallery()
             }
-            
+
             btnCamera.setOnClickListener {
                 startCamera()
             }
-            
+
             buttonAdd.setOnClickListener {
                 addNewStory()
             }
         }
     }
-    
+
     private fun hideKeyboard() {
         val view: View? = currentFocus
         if (view != null) {
@@ -105,6 +106,7 @@ class UploadActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
+
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
@@ -113,9 +115,9 @@ class UploadActivity : AppCompatActivity() {
         imageUri = getImageUri(this)
         launcherIntentCamera.launch(imageUri)
     }
-    
+
     private fun showImage() {
-        if(imageUri != null) {
+        if (imageUri != null) {
             binding.previewImage.setImageURI(imageUri)
             hideKeyboard()
         }
@@ -137,30 +139,38 @@ class UploadActivity : AppCompatActivity() {
             overlayView.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
+
     private fun addNewStory() {
         val description = binding.edAddDescription.text.toString()
         imageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            viewModel.addNewStory(imageFile, description).observe(this) {result ->
-                if(result != null) {
-                    when(result) {
+            viewModel.addNewStory(imageFile, description).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
                         is Result.Loading -> {
                             binding.buttonAdd.isEnabled = false
                             binding.btnGallery.isEnabled = false
                             binding.btnCamera.isEnabled = false
                             showLoading(true)
                         }
+
                         is Result.Error -> {
                             binding.buttonAdd.isEnabled = false
                             binding.btnGallery.isEnabled = false
                             binding.btnCamera.isEnabled = false
                             showLoading(false)
-                            Snackbar.make(binding.root, result.error.capitalized(), Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(
+                                binding.root,
+                                result.error.capitalized(),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
+
                         is Result.Success -> {
                             showLoading(false)
                             val intent = Intent(this, MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)
                         }
                     }
@@ -168,18 +178,20 @@ class UploadActivity : AppCompatActivity() {
             }
         } ?: Toast.makeText(this, getString(R.string.image_missing), Toast.LENGTH_SHORT).show()
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_IMAGE_URI, imageUri)
     }
+
     override fun onResume() {
         super.onResume()
 
-        if(imageUri != null) {
+        if (imageUri != null) {
             binding.previewImage.setImageURI(imageUri)
         }
     }
-    
+
     companion object {
         private const val KEY_IMAGE_URI = "image_uri"
     }

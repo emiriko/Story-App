@@ -1,6 +1,5 @@
 package com.example.storyapp.data.remote.api
 
-import android.util.Log
 import com.example.storyapp.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,9 +14,9 @@ class APIConfig {
             } else {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
             }
-            
+
             val authInterceptor = AuthInterceptor(token)
-            
+
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(authInterceptor)

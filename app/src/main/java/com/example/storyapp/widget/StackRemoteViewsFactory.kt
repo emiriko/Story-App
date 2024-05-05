@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import com.bumptech.glide.Glide
 import com.example.storyapp.R
@@ -17,7 +16,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 
-class StackRemoteViewsFactory(private val mContext: Context): RemoteViewsService.RemoteViewsFactory {
+class StackRemoteViewsFactory(private val mContext: Context) :
+    RemoteViewsService.RemoteViewsFactory {
     private val mWidgetItems = ArrayList<ListStoryItem>()
 
     override fun onCreate() {
