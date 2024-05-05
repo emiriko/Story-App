@@ -40,7 +40,7 @@
     <string name="image_missing">Gambar belum dipilih</string>
     <string name="story">Gambar Cerita </string>
     <string name="no_book_found">Tidak ada cerita.</string>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="appwidget_text">Story App</string>
     <string name="add_widget">Tambah Widget</string>
     <string name="app_widget_description">Ini deksripsi widget</string>
     <string name="empty_text">Tidak ada data.</string>

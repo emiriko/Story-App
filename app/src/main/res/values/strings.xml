@@ -39,11 +39,11 @@
     <string name="image_missing">No Image Selected</string>
     <string name="story">Story Image </string>
     <string name="no_book_found">No Story Found.</string>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="appwidget_text">Story App</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
     <string name="empty_text">No Data.</string>
-    
+
     <string-array name="language_item">
         <item>English</item>
         <item>Indonesia</item>

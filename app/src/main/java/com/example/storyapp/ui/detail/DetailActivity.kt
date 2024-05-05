@@ -1,6 +1,7 @@
 package com.example.storyapp.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -40,6 +41,8 @@ class DetailActivity : AppCompatActivity() {
         
         val detailId = intent.getStringExtra(DETAIL_ID)
 
+        Log.d("DetailActivity", "Detail ID: $detailId")
+        
         if (detailId != null) {
             viewModel.getDetailStory(detailId).observe(this) { result ->
                 if (result != null) {
