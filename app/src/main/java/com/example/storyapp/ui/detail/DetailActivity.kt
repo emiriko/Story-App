@@ -46,10 +46,14 @@ class DetailActivity : AppCompatActivity() {
                 if (result != null) {
                     when (result) {
                         is Result.Loading -> {
+                            binding.bookImage.visibility = View.GONE
+                            binding.noStoryFoundText.visibility = View.GONE
                             showLoading(true)
                         }
 
                         is Result.Success -> {
+                            binding.bookImage.visibility = View.GONE
+                            binding.noStoryFoundText.visibility = View.GONE
                             Glide.with(binding.root).load(result.data.story?.photoUrl) // URL Gambar
                                 .into(binding.ivDetailPhoto)
                             binding.tvDetailName.text = result.data.story?.name
