@@ -1,6 +1,7 @@
 package com.example.storyapp.data.remote.api
 
 import com.example.storyapp.BuildConfig
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,8 +16,16 @@ class APIConfig {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
             }
 
-            val authInterceptor = AuthInterceptor(token)
+            // val authInterceptor = AuthInterceptor(token)
 
+            val authInterceptor = Interceptor { chain ->
+                val req = chain.request()
+                val requestHeaders = req.newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+                chain.proceed(requestHeaders)
+            }
+            
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(authInterceptor)

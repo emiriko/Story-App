@@ -12,8 +12,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.storyapp.databinding.ActivityMainBinding
+import com.example.storyapp.ui.UserViewModel
 import com.example.storyapp.ui.ViewModelFactory
-import com.example.storyapp.ui.home.HomeViewModel
 import com.example.storyapp.ui.onboarding.OnboardingActivity
 import com.example.storyapp.ui.settings.SettingsViewModel
 import com.example.storyapp.ui.upload.UploadActivity
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val homeViewModel by viewModels<HomeViewModel> {
+    private val userViewModel by viewModels<UserViewModel> {
         ViewModelFactory.getInstance(this)
     }
 
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        homeViewModel.getUserSession().observe(this) { user ->
+        userViewModel.getUserSession().observe(this) { user ->
             if (!user.isLoggedIn) {
                 startActivity(Intent(this, OnboardingActivity::class.java))
                 finish()

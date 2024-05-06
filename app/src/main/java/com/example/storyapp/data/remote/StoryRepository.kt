@@ -2,6 +2,7 @@ package com.example.storyapp.data.remote
 
 import androidx.lifecycle.liveData
 import com.example.storyapp.data.Result
+import com.example.storyapp.data.remote.api.APIConfig
 import com.example.storyapp.data.remote.api.StoryService
 import com.example.storyapp.data.remote.dto.LoginDTO
 import com.example.storyapp.data.remote.dto.RegisterDTO
@@ -91,5 +92,13 @@ class StoryRepository private constructor(private val storyService: StoryService
             instance ?: synchronized(this) {
                 instance ?: StoryRepository(storyService).also { instance = it }
             }
+        
+        fun getNewInstance(token: String): StoryRepository {
+            val storyService = APIConfig.getStoryService(token)
+            val repository = StoryRepository(storyService)
+            instance = repository
+
+            return repository
+        }
     }
 }

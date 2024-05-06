@@ -18,8 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.storyapp.R
 import com.example.storyapp.databinding.FragmentSettingsBinding
+import com.example.storyapp.ui.UserViewModel
 import com.example.storyapp.ui.ViewModelFactory
-import com.example.storyapp.ui.home.HomeViewModel
 import com.example.storyapp.utils.Helper
 import java.util.Locale
 
@@ -31,7 +31,7 @@ class SettingsFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
-    private val homeViewModel by viewModels<HomeViewModel> {
+    private val userViewModel by viewModels<UserViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
 
@@ -85,7 +85,7 @@ class SettingsFragment : Fragment() {
                 scale.setDuration(1000)
                 scale.addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        homeViewModel.logout()
+                        userViewModel.logout()
                     }
                 })
                 scale.start()

@@ -1,6 +1,7 @@
 package com.example.storyapp.ui
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp.di.Injection
@@ -19,7 +20,11 @@ class ViewModelFactory private constructor(private val applicationContext: Conte
         SettingsViewModel::class.java -> SettingsViewModel(
             Injection.provideSettingsPreferences(applicationContext)
         ) as T
-
+        
+        UserViewModel::class.java -> UserViewModel(
+            Injection.provideUserPreferences(applicationContext)
+        ) as T
+        
         RegisterViewModel::class.java -> RegisterViewModel(
             Injection.provideStoryRepository(applicationContext)
         ) as T
@@ -32,10 +37,12 @@ class ViewModelFactory private constructor(private val applicationContext: Conte
             Injection.provideStoryRepository(applicationContext)
         ) as T
 
-        HomeViewModel::class.java -> HomeViewModel(
-            Injection.provideStoryRepository(applicationContext),
-            Injection.provideUserPreferences(applicationContext)
-        ) as T
+        HomeViewModel::class.java -> {
+            Log.d("ViewModelFactory", "create: Created Pertama kali")
+            HomeViewModel(
+                Injection.provideStoryRepository(applicationContext),
+                ) as T 
+        }
 
         LoginViewModel::class.java -> LoginViewModel(
             Injection.provideStoryRepository(applicationContext),
