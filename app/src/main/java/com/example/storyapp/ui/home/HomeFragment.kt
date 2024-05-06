@@ -2,7 +2,6 @@ package com.example.storyapp.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp.data.Result
-import com.example.storyapp.data.remote.StoryRepository
 import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.databinding.FragmentHomeBinding
 import com.example.storyapp.ui.UserViewModel
@@ -55,18 +53,9 @@ class HomeFragment : Fragment() {
                 startActivity(Intent(context, OnboardingActivity::class.java))
                 requireActivity().finish()
             } else {
-                Log.d("HomeFragment", "onViewCreated: dipanggil")
-                // xstartRepositoryNewInstance(user.token)
                 getAllStories()
-                Log.d("HomeFragment", "onViewCreated: too late")
             }
         }
-    }
-
-    @Synchronized
-    private fun startRepositoryNewInstance(token: String) {
-        Log.d("HomeFragment", "startRepositoryNewInstance: ran Once")
-        StoryRepository.getNewInstance(token)
     }
     
     private fun getAllStories() {

@@ -17,16 +17,16 @@ class ViewModelFactory private constructor(private val applicationContext: Conte
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = when (modelClass) {
+        RegisterViewModel::class.java -> RegisterViewModel(
+            Injection.provideUserRepository()
+        ) as T
+        
         SettingsViewModel::class.java -> SettingsViewModel(
             Injection.provideSettingsPreferences(applicationContext)
         ) as T
         
         UserViewModel::class.java -> UserViewModel(
             Injection.provideUserPreferences(applicationContext)
-        ) as T
-        
-        RegisterViewModel::class.java -> RegisterViewModel(
-            Injection.provideStoryRepository(applicationContext)
         ) as T
 
         UploadViewModel::class.java -> UploadViewModel(
@@ -37,15 +37,12 @@ class ViewModelFactory private constructor(private val applicationContext: Conte
             Injection.provideStoryRepository(applicationContext)
         ) as T
 
-        HomeViewModel::class.java -> {
-            Log.d("ViewModelFactory", "create: Created Pertama kali")
-            HomeViewModel(
+        HomeViewModel::class.java -> HomeViewModel(
                 Injection.provideStoryRepository(applicationContext),
-                ) as T 
-        }
+        ) as T
 
         LoginViewModel::class.java -> LoginViewModel(
-            Injection.provideStoryRepository(applicationContext),
+            Injection.provideUserRepository(),
             Injection.provideUserPreferences(applicationContext)
         ) as T
 

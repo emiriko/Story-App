@@ -2,12 +2,7 @@ package com.example.storyapp.data.remote
 
 import androidx.lifecycle.liveData
 import com.example.storyapp.data.Result
-import com.example.storyapp.data.remote.api.APIConfig
 import com.example.storyapp.data.remote.api.StoryService
-import com.example.storyapp.data.remote.dto.LoginDTO
-import com.example.storyapp.data.remote.dto.RegisterDTO
-import com.example.storyapp.data.remote.response.LoginResult
-import com.example.storyapp.preferences.UserPreferences
 import com.example.storyapp.utils.Helper
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -17,33 +12,6 @@ import retrofit2.HttpException
 import java.io.File
 
 class StoryRepository private constructor(private val storyService: StoryService) {
-    fun register(body: RegisterDTO) = liveData {
-        emit(Result.Loading)
-        try {
-            val response = storyService.register(
-                name = body.name,
-                email = body.email,
-                password = body.password
-            )
-            emit(Result.Success(response))
-        } catch (error: HttpException) {
-            emit(Result.Error(Helper.getErrorMessage(error)))
-        }
-    }
-
-    fun login(body: LoginDTO, preferences: UserPreferences) = liveData {
-        emit(Result.Loading)
-
-        try {
-            val response = storyService.login(email = body.email, password = body.password)
-            val loginResult = response.loginResult as LoginResult
-            preferences.saveUserSession(email = body.email, token = loginResult.token as String)
-            emit(Result.Success(loginResult))
-        } catch (error: HttpException) {
-            emit(Result.Error(Helper.getErrorMessage(error)))
-        }
-    }
-
     fun addNewStory(file: File, description: String) = liveData {
         emit(Result.Loading)
         try {
@@ -92,13 +60,5 @@ class StoryRepository private constructor(private val storyService: StoryService
             instance ?: synchronized(this) {
                 instance ?: StoryRepository(storyService).also { instance = it }
             }
-        
-        fun getNewInstance(token: String): StoryRepository {
-            val storyService = APIConfig.getStoryService(token)
-            val repository = StoryRepository(storyService)
-            instance = repository
-
-            return repository
-        }
     }
 }
