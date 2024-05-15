@@ -118,6 +118,39 @@ class UploadActivity : AppCompatActivity() {
             buttonAdd.setOnClickListener {
                 addNewStory()
             }
+            
+            viewModel.result.observe(this@UploadActivity) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
+                            buttonAdd.isEnabled = false
+                            btnGallery.isEnabled = false
+                            btnCamera.isEnabled = false
+                            showLoading(true)
+                        }
+
+                        is Result.Error -> {
+                            buttonAdd.isEnabled = false
+                            btnGallery.isEnabled = false
+                            btnCamera.isEnabled = false
+                            showLoading(false)
+                            Snackbar.make(
+                                root,
+                                result.error.capitalized(),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        is Result.Success -> {
+                            showLoading(false)
+                            val intent = Intent(this@UploadActivity, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -180,38 +213,7 @@ class UploadActivity : AppCompatActivity() {
             val description = edAddDescription.text.toString()
             imageUri?.let { uri ->
                 val imageFile = uriToFile(uri, this@UploadActivity).reduceFileImage()
-                viewModel.addNewStory(imageFile, description, latitude, longitude).observe(this@UploadActivity) { result ->
-                    if (result != null) {
-                        when (result) {
-                            is Result.Loading -> {
-                                buttonAdd.isEnabled = false
-                                btnGallery.isEnabled = false
-                                btnCamera.isEnabled = false
-                                showLoading(true)
-                            }
-
-                            is Result.Error -> {
-                                buttonAdd.isEnabled = false
-                                btnGallery.isEnabled = false
-                                btnCamera.isEnabled = false
-                                showLoading(false)
-                                Snackbar.make(
-                                    root,
-                                    result.error.capitalized(),
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            is Result.Success -> {
-                                showLoading(false)
-                                val intent = Intent(this@UploadActivity, MainActivity::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                startActivity(intent)
-                            }
-                        }
-                    }
-                }
+                viewModel.addNewStory(imageFile, description, latitude, longitude)
             } ?: Toast.makeText(this@UploadActivity, getString(R.string.image_missing), Toast.LENGTH_SHORT).show()
         }
     }

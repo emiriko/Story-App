@@ -3,6 +3,7 @@ package com.example.storyapp.data
 import androidx.lifecycle.liveData
 import com.example.storyapp.data.local.room.StoryDatabase
 import com.example.storyapp.data.remote.api.StoryService
+import com.example.storyapp.data.remote.response.AddNewStoryResponse
 import com.example.storyapp.utils.Helper
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -12,9 +13,8 @@ import retrofit2.HttpException
 import java.io.File
 
 class StoryRepository private constructor(private val storyService: StoryService, private val storyDatabase: StoryDatabase) {
-    fun addNewStory(file: File, description: String, latitude: Double?, longitude: Double?) = liveData {
-        emit(Result.Loading)
-        try {
+    suspend fun addNewStory(file: File, description: String, latitude: Double?, longitude: Double?): Result<AddNewStoryResponse> {
+        return try {
             val requestBody = description.toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
             val multipartBody = MultipartBody.Part.createFormData(
@@ -24,11 +24,12 @@ class StoryRepository private constructor(private val storyService: StoryService
             )
             val response =
                 storyService.addNewStory(description = requestBody, photo = multipartBody, latitude = latitude, longitude = longitude)
-            emit(Result.Success(response))
+            
+            Result.Success(response)
         } catch (error: HttpException) {
-            emit(Result.Error(Helper.getErrorMessage(error)))
+            Result.Error(Helper.getErrorMessage(error))
         } catch (error: Exception) {
-            emit(Result.Error(error.message.toString()))
+            Result.Error(error.message.toString())
         }
     }
 
