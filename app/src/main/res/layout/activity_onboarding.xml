@@ -13,6 +13,7 @@
         tools:context=".ui.onboarding.OnboardingActivity">
     
         <ImageView
+            android:contentDescription="@string/app_name"
             android:id="@+id/logoMenu1"
             android:layout_width="0dp"
             android:layout_height="200dp"

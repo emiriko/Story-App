@@ -1,7 +1,6 @@
 package com.example.storyapp.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -40,7 +39,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val detailId = intent.getStringExtra(DETAIL_ID)
-        
+
         if (detailId != null) {
             viewModel.getDetailStory(detailId).observe(this) { result ->
                 if (result != null) {
@@ -52,13 +51,15 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                         is Result.Success -> {
-                            binding.bookImage.visibility = View.GONE
-                            binding.noStoryFoundText.visibility = View.GONE
-                            Glide.with(binding.root).load(result.data.story?.photoUrl) // URL Gambar
-                                .into(binding.ivDetailPhoto)
-                            binding.tvDetailName.text = result.data.story?.name
-                            binding.tvDetailDescription.text = result.data.story?.description
-                            showLoading(false)
+                            with(binding) {
+                                bookImage.visibility = View.GONE
+                                noStoryFoundText.visibility = View.GONE
+                                Glide.with(root).load(result.data.story?.photoUrl) // URL Gambar
+                                    .into(ivDetailPhoto)
+                                tvDetailName.text = result.data.story?.name
+                                tvDetailDescription.text = result.data.story?.description
+                                showLoading(false)
+                            }
                         }
 
                         is Result.Error -> {

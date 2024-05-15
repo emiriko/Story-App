@@ -15,6 +15,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface StoryService {
     @Headers("isPublic: true")
@@ -39,10 +40,14 @@ interface StoryService {
     suspend fun addNewStory(
         @Part photo: MultipartBody.Part,
         @Part("description") description: RequestBody,
+        @Part("lat") latitude: Double?,
+        @Part("lon") longitude: Double?
     ): AddNewStoryResponse
 
     @GET("stories")
-    suspend fun getAllStories(): GetAllStoriesResponse
+    suspend fun getAllStories(
+        @Query ("location") location: Int = 0
+    ): GetAllStoriesResponse
 
     @GET("stories/{id}")
     suspend fun getDetailStory(

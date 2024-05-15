@@ -1,7 +1,6 @@
 package com.example.storyapp.di
 
 import android.content.Context
-import android.util.Log
 import com.example.storyapp.data.remote.StoryRepository
 import com.example.storyapp.data.remote.UserRepository
 import com.example.storyapp.data.remote.api.APIConfig
@@ -27,7 +26,7 @@ object Injection {
         val storyService = APIConfig.getStoryService(user.token)
         return StoryRepository.getInstance(storyService)
     }
-    
+
     fun provideUserRepository(): UserRepository {
         val token = ""
         val storyService = APIConfig.getStoryService(token)

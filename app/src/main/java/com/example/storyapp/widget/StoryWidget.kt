@@ -11,16 +11,12 @@ import androidx.core.net.toUri
 import com.example.storyapp.R
 import com.example.storyapp.ui.detail.DetailActivity
 
-/**
- * Implementation of App Widget functionality.
- */
 class StoryWidget : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
@@ -45,18 +41,15 @@ class StoryWidget : AppWidgetProvider() {
     }
 
     override fun onEnabled(context: Context) {
-        // Enter relevant functionality for when the first widget is created
     }
 
     override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 
     companion object {
         private const val ITEM_CLICKED = "com.example.storyapp.ITEM_CLICKED"
         const val ITEM_ID = "com.example.storyapp.EXTRA_ITEM"
 
-        //pindahkan fungsi ini ke companion object, karena kita akan memanggil fungsi ini dari luar kelas
         private fun updateAppWidget(
             context: Context,
             appWidgetManager: AppWidgetManager,

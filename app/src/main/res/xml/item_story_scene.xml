@@ -6,7 +6,7 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000">
+        motion:duration="480">
        <KeyFrameSet>
        </KeyFrameSet>
         <OnClick motion:targetId="@id/iv_item_photo"
@@ -31,7 +31,8 @@
             motion:layout_constraintTop_toBottomOf="@+id/cardView"
             android:alpha="0"
             motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="0dp" />
+            android:layout_marginTop="0dp"
+            android:visibility="gone" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -65,7 +66,8 @@
             motion:layout_constraintTop_toBottomOf="@+id/cardView"
             android:alpha="1"
             motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="32dp"
-            android:id="@+id/btn_description" />
+            android:layout_marginTop="60dp"
+            android:id="@+id/btn_description"
+            android:visibility="visible" />
     </ConstraintSet>
 </MotionScene>

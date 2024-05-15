@@ -48,4 +48,8 @@
         <item>English</item>
         <item>Indonesia</item>
     </string-array>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="maps">Maps</string>
+    <string name="use_your_location">Use Your Location</string>
+    <string name="location_not_found">Location Not Found.</string>
 </resources>

@@ -56,7 +56,7 @@
             app:layout_constraintEnd_toStartOf="@+id/center_guideline_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/previewImage" />
-    
+        
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_camera"
             style="@style/Widget.MaterialComponents.Button.Icon"
@@ -72,6 +72,18 @@
             app:layout_constraintStart_toEndOf="@+id/center_guideline_vertical"
             app:layout_constraintTop_toBottomOf="@+id/previewImage" />
 
+        <CheckBox
+            android:id="@+id/gps"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="32dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="@string/use_your_location"
+            app:layout_constraintBottom_toTopOf="@+id/layout_add_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_camera" />
+        
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_add_description"
             style="@style/MyTextInputLayout"
@@ -85,10 +97,9 @@
             android:layout_marginBottom="8dp"
             android:hint="@string/description"
             app:cursorColor="?attr/colorPrimaryVariant"
-            app:layout_constraintBottom_toTopOf="@+id/button_add"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_camera">
+            app:layout_constraintTop_toBottomOf="@id/gps">
 
             <com.example.storyapp.ui.customs.CustomEditText
                 android:id="@+id/ed_add_description"

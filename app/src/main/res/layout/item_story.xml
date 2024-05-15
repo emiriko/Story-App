@@ -71,14 +71,14 @@
         android:id="@+id/btn_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0"
         android:backgroundTint="?attr/colorPrimaryVariant"
         android:text="@string/description"
+        android:visibility="gone"
         app:icon="@drawable/ic_navigation_24"
         app:iconSize="20dp"
-        android:alpha="0"
-        tools:alpha="1"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        /> 
+        tools:alpha="1" /> 
 </androidx.constraintlayout.motion.widget.MotionLayout>

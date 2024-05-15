@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
 }
 
 android {
@@ -17,6 +18,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "API_BASE_URL", "\"https://story-api.dicoding.dev/v1/\"")
+        resValue("string", "GOOGLE_MAPS_API_KEY", "AIzaSyBj-T-EFj0kPrdV3I0kVp8cPEq2PqTnlLk")
     }
 
     buildTypes {
@@ -65,6 +67,8 @@ dependencies {
     implementation(libs.loggingInterceptor)
     implementation(libs.datastore.preferences)
     implementation(libs.lottie)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

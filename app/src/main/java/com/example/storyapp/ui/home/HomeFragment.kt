@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +14,7 @@ import com.example.storyapp.databinding.FragmentHomeBinding
 import com.example.storyapp.ui.UserViewModel
 import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.detail.DetailActivity
+import com.example.storyapp.ui.maps.MapsActivity
 import com.example.storyapp.ui.onboarding.OnboardingActivity
 import com.example.storyapp.utils.capitalized
 import com.google.android.material.snackbar.Snackbar
@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
     private val userViewModel by viewModels<UserViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
-    
+
     private var _binding: FragmentHomeBinding? = null
 
     private val binding get() = _binding as FragmentHomeBinding
@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(context)
         binding.rvStories.layoutManager = layoutManager
-    
+
         userViewModel.getUserSession().observe(viewLifecycleOwner) { user ->
             if (!user.isLoggedIn) {
                 startActivity(Intent(context, OnboardingActivity::class.java))
@@ -57,8 +57,12 @@ class HomeFragment : Fragment() {
                 getAllStories()
             }
         }
+        
+        binding.btnMaps.setOnClickListener {
+            startActivity(Intent(context, MapsActivity::class.java))
+        }
     }
-    
+
     private fun getAllStories() {
         homeViewModel.getAllStories().observe(viewLifecycleOwner) { result ->
             if (result != null) {
@@ -109,6 +113,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
     private fun showLoading(loading: Boolean) {
         with(binding) {
             loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE

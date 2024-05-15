@@ -16,6 +16,9 @@ legacySupportV4 = "1.0.0"
 fragmentKtx = "1.6.2"
 annotation = "1.7.1"
 activity = "1.8.0"
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
+playServicesMaps = "18.2.0"
+playServiceLocation = "21.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,8 +47,11 @@ androidx-roomCompiler = { group = "androidx.room", name = "room-compiler", versi
 androidx-roomKtx = { group = "androidx.room", name = "room-ktx", version = "2.4.0" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 lottie = { group = "com.airbnb.android", name = "lottie", version = "4.1.0" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServiceLocation" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 devtools-ksp = { id = "com.google.devtools.ksp", version = "1.9.0-1.0.13" }
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }

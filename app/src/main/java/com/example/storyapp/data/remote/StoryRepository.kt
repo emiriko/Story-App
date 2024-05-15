@@ -1,5 +1,6 @@
 package com.example.storyapp.data.remote
 
+import android.util.Log
 import androidx.lifecycle.liveData
 import com.example.storyapp.data.Result
 import com.example.storyapp.data.remote.api.StoryService
@@ -12,7 +13,7 @@ import retrofit2.HttpException
 import java.io.File
 
 class StoryRepository private constructor(private val storyService: StoryService) {
-    fun addNewStory(file: File, description: String) = liveData {
+    fun addNewStory(file: File, description: String, latitude: Double?, longitude: Double?) = liveData {
         emit(Result.Loading)
         try {
             val requestBody = description.toRequestBody("text/plain".toMediaType())
@@ -23,7 +24,7 @@ class StoryRepository private constructor(private val storyService: StoryService
                 requestImageFile
             )
             val response =
-                storyService.addNewStory(description = requestBody, photo = multipartBody)
+                storyService.addNewStory(description = requestBody, photo = multipartBody, latitude = latitude, longitude = longitude)
             emit(Result.Success(response))
         } catch (error: HttpException) {
             emit(Result.Error(Helper.getErrorMessage(error)))
@@ -49,6 +50,16 @@ class StoryRepository private constructor(private val storyService: StoryService
             emit(Result.Success(response))
         } catch (error: HttpException) {
             emit(Result.Error(Helper.getErrorMessage(error)))
+        }
+    }
+    
+    fun getAllStoriesWithLocation() = liveData {
+        emit(Result.Loading)
+        try {
+            val response = storyService.getAllStories(location = 1)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            emit(Result.Error(Helper.getErrorMessage(e)))
         }
     }
 
