@@ -56,6 +56,35 @@ class LoginActivity : AppCompatActivity() {
                 hideKeyboard()
                 login(body)
             }
+
+            viewModel.result.observe(this@LoginActivity) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Error -> {
+                            showLoading(false)
+                            Snackbar.make(
+                                root,
+                                result.error.capitalized(),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                            enableButton()
+                        }
+
+                        is Result.Loading -> {
+                            btnLogin.isEnabled = false
+                            showLoading(true)
+                        }
+
+                        is Result.Success -> {
+                            showLoading(false)
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -68,34 +97,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login(body: LoginDTO) {
-        viewModel.login(body).observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Error -> {
-                        showLoading(false)
-                        Snackbar.make(
-                            binding.root,
-                            result.error.capitalized(),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                        enableButton()
-                    }
-
-                    is Result.Loading -> {
-                        binding.btnLogin.isEnabled = false
-                        showLoading(true)
-                    }
-
-                    is Result.Success -> {
-                        showLoading(false)
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                    }
-                }
-            }
-        }
+        viewModel.login(body)
     }
 
     private fun showLoading(loading: Boolean) {

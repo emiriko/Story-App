@@ -1,8 +1,9 @@
 package com.example.storyapp.di
 
 import android.content.Context
-import com.example.storyapp.data.remote.StoryRepository
-import com.example.storyapp.data.remote.UserRepository
+import com.example.storyapp.data.StoryRepository
+import com.example.storyapp.data.UserRepository
+import com.example.storyapp.data.local.room.StoryDatabase
 import com.example.storyapp.data.remote.api.APIConfig
 import com.example.storyapp.preferences.SettingsPreferences
 import com.example.storyapp.preferences.UserPreferences
@@ -24,7 +25,8 @@ object Injection {
         val preferences = provideUserPreferences(context)
         val user = runBlocking { preferences.getUserSession().first() }
         val storyService = APIConfig.getStoryService(user.token)
-        return StoryRepository.getInstance(storyService)
+        val storyDatabase = StoryDatabase.getDatabase(context)
+        return StoryRepository.getInstance(storyService, storyDatabase)
     }
 
     fun provideUserRepository(): UserRepository {

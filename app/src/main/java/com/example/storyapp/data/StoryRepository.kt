@@ -1,8 +1,7 @@
-package com.example.storyapp.data.remote
+package com.example.storyapp.data
 
-import android.util.Log
 import androidx.lifecycle.liveData
-import com.example.storyapp.data.Result
+import com.example.storyapp.data.local.room.StoryDatabase
 import com.example.storyapp.data.remote.api.StoryService
 import com.example.storyapp.utils.Helper
 import okhttp3.MediaType.Companion.toMediaType
@@ -12,7 +11,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.File
 
-class StoryRepository private constructor(private val storyService: StoryService) {
+class StoryRepository private constructor(private val storyService: StoryService, private val storyDatabase: StoryDatabase) {
     fun addNewStory(file: File, description: String, latitude: Double?, longitude: Double?) = liveData {
         emit(Result.Loading)
         try {
@@ -67,9 +66,9 @@ class StoryRepository private constructor(private val storyService: StoryService
         @Volatile
         private var instance: StoryRepository? = null
 
-        fun getInstance(storyService: StoryService): StoryRepository =
+        fun getInstance(storyService: StoryService, storyDatabase: StoryDatabase): StoryRepository =
             instance ?: synchronized(this) {
-                instance ?: StoryRepository(storyService).also { instance = it }
+                instance ?: StoryRepository(storyService, storyDatabase).also { instance = it }
             }
     }
 }

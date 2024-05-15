@@ -1,7 +1,7 @@
 package com.example.storyapp.ui.home
 
 import androidx.lifecycle.ViewModel
-import com.example.storyapp.data.remote.StoryRepository
+import com.example.storyapp.data.StoryRepository
 
 class HomeViewModel(
     private val storyRepository: StoryRepository,

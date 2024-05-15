@@ -49,6 +49,8 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 lottie = { group = "com.airbnb.android", name = "lottie", version = "4.1.0" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServiceLocation" }
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version = "3.1.0" }
+room-paging = { group = "androidx.room", name = "room-paging", version = "2.4.0" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

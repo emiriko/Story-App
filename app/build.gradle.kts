@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -31,11 +32,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_17.toString()
+        freeCompilerArgs = freeCompilerArgs + arrayOf("-Xopt-in=kotlin.RequiresOptIn")
     }
     buildFeatures {
         viewBinding = true
@@ -69,6 +71,10 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation(libs.paging.runtime)
+    implementation(libs.room.paging)
+    
+    ksp(libs.androidx.roomCompiler)
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

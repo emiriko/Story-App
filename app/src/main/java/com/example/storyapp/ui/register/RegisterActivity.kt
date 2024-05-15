@@ -60,6 +60,39 @@ class RegisterActivity : AppCompatActivity() {
                 hideKeyboard()
                 registerUser(body)
             }
+            
+            viewModel.result.observe(this@RegisterActivity) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Success -> {
+                            showLoading(false)
+                            Snackbar.make(
+                                root,
+                                getString(R.string.register_success),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+
+                        is Result.Loading -> {
+                            showLoading(true)
+                            btnRegister.isEnabled = false
+                        }
+
+                        is Result.Error -> {
+                            showLoading(false)
+                            enableButton()
+                            Snackbar.make(
+                                root,
+                                result.error.capitalized(),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } 
+                
+            }
         }
     }
 
@@ -72,37 +105,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser(body: RegisterDTO) {
-        viewModel.register(body).observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Success -> {
-                        showLoading(false)
-                        Snackbar.make(
-                            binding.root,
-                            getString(R.string.register_success),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                    }
-
-                    is Result.Loading -> {
-                        showLoading(true)
-                        binding.btnRegister.isEnabled = false
-                    }
-
-                    is Result.Error -> {
-                        showLoading(false)
-                        enableButton()
-                        Snackbar.make(
-                            binding.root,
-                            result.error.capitalized(),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
+        viewModel.register(body)
     }
 
     private fun showLoading(loading: Boolean) {
