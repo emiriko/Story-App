@@ -13,6 +13,7 @@ import com.example.storyapp.data.remote.api.StoryService
 import com.example.storyapp.data.remote.response.AddNewStoryResponse
 import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.utils.Helper
+import com.example.storyapp.utils.wrapEspressoIdlingResource
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -22,22 +23,24 @@ import java.io.File
 
 class StoryRepository private constructor(private val storyService: StoryService, private val storyDatabase: StoryDatabase) {
     suspend fun addNewStory(file: File, description: String, latitude: Double?, longitude: Double?): Result<AddNewStoryResponse> {
-        return try {
-            val requestBody = description.toRequestBody("text/plain".toMediaType())
-            val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
-            val multipartBody = MultipartBody.Part.createFormData(
-                "photo",
-                file.name,
-                requestImageFile
-            )
-            val response =
-                storyService.addNewStory(description = requestBody, photo = multipartBody, latitude = latitude, longitude = longitude)
-            
-            Result.Success(response)
-        } catch (error: HttpException) {
-            Result.Error(Helper.getErrorMessage(error))
-        } catch (error: Exception) {
-            Result.Error(error.message.toString())
+        return wrapEspressoIdlingResource { 
+            try {
+                val requestBody = description.toRequestBody("text/plain".toMediaType())
+                val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
+                val multipartBody = MultipartBody.Part.createFormData(
+                    "photo",
+                    file.name,
+                    requestImageFile
+                )
+                val response =
+                    storyService.addNewStory(description = requestBody, photo = multipartBody, latitude = latitude, longitude = longitude)
+                
+                Result.Success(response)
+            } catch (error: HttpException) {
+                Result.Error(Helper.getErrorMessage(error))
+            } catch (error: Exception) {
+                Result.Error(error.message.toString())
+            }
         }
     }
 

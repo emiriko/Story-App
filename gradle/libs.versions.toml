@@ -40,6 +40,7 @@ androidx-room = { group = "androidx.room", name = "room-runtime", version = "2.5
 androidx-roomCompiler = { group = "androidx.room", name = "room-compiler", version = "2.5.2" }
 androidx-roomKtx = { group = "androidx.room", name = "room-ktx", version = "2.4.0" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoCore" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version = "4.16.0" }
@@ -55,11 +56,17 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version = "3.1.0" }
 room-paging = { group = "androidx.room", name = "room-paging", version = "2.4.0" }
 
-# Testing
+# Unit Testing
 core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "ktxCoroutinesTest" }
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito" }
+
+# Android Testing
+androidx-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoCore" }
+androidx-uiAutomator = { group = "androidx.test.uiautomator", name = "uiautomator", version = "2.2.0" }
+mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version = "4.9.3" }
+okhttp-tls = { group = "com.squareup.okhttp3", name = "okhttp-tls", version = "4.9.3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

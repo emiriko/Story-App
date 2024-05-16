@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.room)
     implementation(libs.androidx.roomKtx)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.espresso.idling.resource)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.material)
     implementation(libs.retrofit)
@@ -80,8 +81,12 @@ dependencies {
     testImplementation(libs.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.inline) 
     
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.uiAutomator)
+    androidTestImplementation(libs.mockwebserver)
+    androidTestImplementation(libs.okhttp.tls)
 }
