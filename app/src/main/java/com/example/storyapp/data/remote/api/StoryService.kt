@@ -46,7 +46,9 @@ interface StoryService {
 
     @GET("stories")
     suspend fun getAllStories(
-        @Query ("location") location: Int = 0
+        @Query ("location") location: Int = 0,
+        @Query("page") page: Int? = null,
+        @Query("size") size: Int? = null
     ): GetAllStoriesResponse
 
     @GET("stories/{id}")

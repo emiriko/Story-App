@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp.data.Result
+import com.example.storyapp.data.local.entity.StoryEntity
 import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.databinding.FragmentHomeBinding
+import com.example.storyapp.ui.LoadingStateAdapter
 import com.example.storyapp.ui.UserViewModel
 import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.detail.DetailActivity
@@ -64,56 +67,53 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAllStories() {
-        homeViewModel.getAllStories().observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Loading -> {
-                        binding.bookImage.visibility = View.GONE
-                        binding.noStoryFoundText.visibility = View.GONE
+        val adapter = StoryAdapter()
+
+        binding.rvStories.adapter = adapter.apply {
+            this.addLoadStateListener { state ->
+               when(state.refresh) {
+                    is LoadState.Loading -> {
                         showLoading(true)
+                        showNotFound(false)
                     }
-
-                    is Result.Success -> {
-                        val stories = result.data.listStory
-
-                        binding.bookImage.visibility =
-                            if (stories.isEmpty()) View.VISIBLE else View.GONE
-                        binding.noStoryFoundText.visibility =
-                            if (stories.isEmpty()) View.VISIBLE else View.GONE
-
-                        stories.let { list ->
-                            val adapter = StoryAdapter()
-                            adapter.submitList(list)
-                            binding.rvStories.adapter = adapter
-
-                            adapter.setOnItemClickCallback(object :
-                                StoryAdapter.OnItemClickCallback {
-                                override fun onItemClicked(data: ListStoryItem) {
-                                    val intent = Intent(context, DetailActivity::class.java)
-                                    intent.putExtra(DetailActivity.DETAIL_ID, data.id)
-                                    startActivity(intent)
-                                }
-                            })
-                        }
-
+                    is LoadState.Error -> {
                         showLoading(false)
+                        val error = (state.refresh as LoadState.Error).error
+                        Snackbar.make(binding.root, error.message.toString(), Snackbar.LENGTH_SHORT).show()
                     }
-
-                    is Result.Error -> {
+                    is LoadState.NotLoading -> {
                         showLoading(false)
-                        binding.bookImage.visibility = View.VISIBLE
-                        binding.noStoryFoundText.visibility = View.VISIBLE
-                        Snackbar.make(
-                            binding.root,
-                            result.error.capitalized(),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                        showNotFound(itemCount == 0)
                     }
                 }
             }
+            
+            this.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    adapter.retry()
+                }
+            )
+            
+            this.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
+                override fun onItemClicked(data: StoryEntity?) {
+                    val intent = Intent(context, DetailActivity::class.java)
+                    intent.putExtra(DetailActivity.DETAIL_ID, data?.id)
+                    startActivity(intent)
+                }
+            })
+        }
+        
+        homeViewModel.getAllStories().observe(viewLifecycleOwner) { result ->
+            adapter.submitData(lifecycle, result)
         }
     }
 
+    private fun showNotFound(show: Boolean) {
+        with(binding) {
+            bookImage.visibility = if (show) View.VISIBLE else View.GONE
+            noStoryFoundText.visibility = if (show) View.VISIBLE else View.GONE
+        }
+    }
     private fun showLoading(loading: Boolean) {
         with(binding) {
             loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE

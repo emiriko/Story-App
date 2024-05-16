@@ -1,9 +1,17 @@
 package com.example.storyapp.data
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.example.storyapp.data.local.entity.StoryEntity
 import com.example.storyapp.data.local.room.StoryDatabase
 import com.example.storyapp.data.remote.api.StoryService
 import com.example.storyapp.data.remote.response.AddNewStoryResponse
+import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.utils.Helper
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -33,6 +41,19 @@ class StoryRepository private constructor(private val storyService: StoryService
         }
     }
 
+    fun getAllPaginatedStories(): LiveData<PagingData<StoryEntity>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoryRemoteMediator(storyDatabase, storyService),
+            pagingSourceFactory = {
+                storyDatabase.storyDao().getStories()
+            }
+        ).liveData
+    }
+    
     fun getAllStories() = liveData {
         emit(Result.Loading)
         try {

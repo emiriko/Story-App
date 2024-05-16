@@ -9,7 +9,7 @@ import com.example.storyapp.data.local.entity.RemoteKeysEntity
 @Dao
 interface RemoteKeysDao {
     @Query("SELECT * FROM remote_keys WHERE id = :id")
-    fun getRemoteKeysById(id: String): RemoteKeysEntity?
+    suspend fun getRemoteKeysById(id: String): RemoteKeysEntity?
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertKeys(keys: List<RemoteKeysEntity>)

@@ -10,6 +10,8 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import com.example.storyapp.BuildConfig
+import com.example.storyapp.data.local.entity.StoryEntity
+import com.example.storyapp.data.remote.response.ListStoryItem
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -90,3 +92,12 @@ fun uriToFile(imageUri: Uri, context: Context): File {
     inputStream.close()
     return myFile
 }
+
+fun ListStoryItem.toStoryEntity(): StoryEntity {
+    return StoryEntity(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        photoUrl = this.photoUrl
+    )
+} 

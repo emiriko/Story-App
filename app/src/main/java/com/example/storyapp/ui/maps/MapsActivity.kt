@@ -24,6 +24,7 @@ import com.example.storyapp.ui.UserViewModel
 import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.home.HomeViewModel
 import com.example.storyapp.ui.settings.SettingsViewModel
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 
@@ -32,7 +33,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     
-    private var user: UserModel? = null
+    private val boundsBuilder = LatLngBounds.builder()
     private var mapStyle = R.raw.map_light_style
     
     private val mapsViewModel by viewModels<MapsViewModel> {
@@ -87,10 +88,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         showLoading(false)
                     }
                     is Result.Success -> {
+                        var isBoundFirstSet = false
                         result.data.listStory.forEach { story ->
                             val latLng = LatLng(story.lat as Double, story.lon as Double)
                             mMap.addMarker(MarkerOptions().position(latLng).title(story.name).snippet(story.description))
+                            if (!isBoundFirstSet) {
+                                boundsBuilder.include(latLng)
+                                isBoundFirstSet = true
+                            }
                         }
+
+                        val bounds: LatLngBounds = boundsBuilder.build()
+                        val centerLatLng = bounds.center
+                        val zoomLevel = 5.0f
+
+                        val cameraPosition = CameraPosition.Builder()
+                            .target(centerLatLng)
+                            .zoom(zoomLevel)
+                            .build()
+
+                        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
                         showLoading(false)
                     }
                 }
