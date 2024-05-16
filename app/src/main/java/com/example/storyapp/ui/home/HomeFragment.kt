@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.storyapp.data.Result
 import com.example.storyapp.data.local.entity.StoryEntity
-import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.databinding.FragmentHomeBinding
 import com.example.storyapp.ui.LoadingStateAdapter
 import com.example.storyapp.ui.UserViewModel
@@ -19,7 +17,6 @@ import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.detail.DetailActivity
 import com.example.storyapp.ui.maps.MapsActivity
 import com.example.storyapp.ui.onboarding.OnboardingActivity
-import com.example.storyapp.utils.capitalized
 import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {
@@ -60,7 +57,7 @@ class HomeFragment : Fragment() {
                 getAllStories()
             }
         }
-        
+
         binding.btnMaps.setOnClickListener {
             startActivity(Intent(context, MapsActivity::class.java))
         }
@@ -71,29 +68,32 @@ class HomeFragment : Fragment() {
 
         binding.rvStories.adapter = adapter.apply {
             this.addLoadStateListener { state ->
-               when(state.refresh) {
+                when (state.refresh) {
                     is LoadState.Loading -> {
                         showLoading(true)
                         showNotFound(false)
                     }
+
                     is LoadState.Error -> {
                         showLoading(false)
                         val error = (state.refresh as LoadState.Error).error
-                        Snackbar.make(binding.root, error.message.toString(), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, error.message.toString(), Snackbar.LENGTH_SHORT)
+                            .show()
                     }
+
                     is LoadState.NotLoading -> {
                         showLoading(false)
                         showNotFound(itemCount == 0)
                     }
                 }
             }
-            
+
             this.withLoadStateFooter(
                 footer = LoadingStateAdapter {
                     adapter.retry()
                 }
             )
-            
+
             this.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: StoryEntity?) {
                     val intent = Intent(context, DetailActivity::class.java)
@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-        
+
         homeViewModel.getAllStories().observe(viewLifecycleOwner) { result ->
             adapter.submitData(lifecycle, result)
         }
@@ -114,6 +114,7 @@ class HomeFragment : Fragment() {
             noStoryFoundText.visibility = if (show) View.VISIBLE else View.GONE
         }
     }
+
     private fun showLoading(loading: Boolean) {
         with(binding) {
             loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE

@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -30,7 +29,6 @@ import com.example.storyapp.utils.getImageUri
 import com.example.storyapp.utils.reduceFileImage
 import com.example.storyapp.utils.uriToFile
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationToken
@@ -40,9 +38,9 @@ import com.google.android.material.snackbar.Snackbar
 
 class UploadActivity : AppCompatActivity() {
     private var imageUri: Uri? = null
-    
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    
+
     private val binding by lazy {
         ActivityUploadBinding.inflate(layoutInflater)
     }
@@ -101,7 +99,7 @@ class UploadActivity : AppCompatActivity() {
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        
+
         with(binding) {
             edAddDescription.addTextChangedListener {
                 enableButton()
@@ -118,7 +116,7 @@ class UploadActivity : AppCompatActivity() {
             buttonAdd.setOnClickListener {
                 addNewStory()
             }
-            
+
             viewModel.result.observe(this@UploadActivity) { result ->
                 if (result != null) {
                     when (result) {
@@ -195,26 +193,31 @@ class UploadActivity : AppCompatActivity() {
             btnCamera.isEnabled = false
             loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE
             overlayView.visibility = if (loading) View.VISIBLE else View.GONE
-            
+
         }
     }
-    
+
     private fun addNewStory() {
         with(binding) {
-            if(gps.isChecked) {
+            if (gps.isChecked) {
                 getMyLocation()
             } else {
                 uploadStory()
             }
         }
     }
+
     private fun uploadStory(latitude: Double? = null, longitude: Double? = null) {
         with(binding) {
             val description = edAddDescription.text.toString()
             imageUri?.let { uri ->
                 val imageFile = uriToFile(uri, this@UploadActivity).reduceFileImage()
                 viewModel.addNewStory(imageFile, description, latitude, longitude)
-            } ?: Toast.makeText(this@UploadActivity, getString(R.string.image_missing), Toast.LENGTH_SHORT).show()
+            } ?: Toast.makeText(
+                this@UploadActivity,
+                getString(R.string.image_missing),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -225,22 +228,26 @@ class UploadActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             showLoading(true)
-            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
-                override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+            fusedLocationClient.getCurrentLocation(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                object : CancellationToken() {
+                    override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+                        CancellationTokenSource().token
 
-                override fun isCancellationRequested() = false
-            }).addOnSuccessListener {location: Location? -> 
-                if(location != null) {
+                    override fun isCancellationRequested() = false
+                }).addOnSuccessListener { location: Location? ->
+                if (location != null) {
                     uploadStory(location.latitude, location.longitude)
                 } else {
-                    Toast.makeText(this, getString(R.string.location_not_found), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.location_not_found), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         } else {
             requestPermissionLauncher.launch(LOCATION_FINE_PERMISSION)
         }
     }
-    
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_IMAGE_URI, imageUri)
@@ -256,6 +263,7 @@ class UploadActivity : AppCompatActivity() {
 
     companion object {
         private const val KEY_IMAGE_URI = "image_uri"
-        private const val LOCATION_FINE_PERMISSION = android.Manifest.permission.ACCESS_FINE_LOCATION
+        private const val LOCATION_FINE_PERMISSION =
+            android.Manifest.permission.ACCESS_FINE_LOCATION
     }
 }

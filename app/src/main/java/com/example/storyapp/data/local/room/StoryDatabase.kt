@@ -12,7 +12,7 @@ import com.example.storyapp.data.local.entity.StoryEntity
     version = 1,
     exportSchema = false
 )
-abstract class StoryDatabase: RoomDatabase() {
+abstract class StoryDatabase : RoomDatabase() {
     abstract fun storyDao(): StoryDao
     abstract fun remoteKeysDao(): RemoteKeysDao
 

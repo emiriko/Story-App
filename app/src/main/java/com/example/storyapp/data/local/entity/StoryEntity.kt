@@ -9,13 +9,13 @@ data class StoryEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
     var id: String = "",
-    
+
     @ColumnInfo(name = "name")
     var name: String = "",
-    
+
     @ColumnInfo(name = "description")
     var description: String = "",
-    
+
     @ColumnInfo(name = "photo_url")
     var photoUrl: String = "",
 )

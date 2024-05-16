@@ -86,6 +86,7 @@ class SettingsFragment : Fragment() {
                 scale.addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         userViewModel.logout()
+                        userViewModel.invalidateRepository()
                     }
                 })
                 scale.start()

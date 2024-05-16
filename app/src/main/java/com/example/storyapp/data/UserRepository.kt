@@ -1,6 +1,5 @@
 package com.example.storyapp.data
 
-import androidx.lifecycle.liveData
 import com.example.storyapp.data.remote.api.StoryService
 import com.example.storyapp.data.remote.dto.LoginDTO
 import com.example.storyapp.data.remote.dto.RegisterDTO

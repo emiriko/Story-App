@@ -60,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
                 hideKeyboard()
                 registerUser(body)
             }
-            
+
             viewModel.result.observe(this@RegisterActivity) { result ->
                 if (result != null) {
                     when (result) {
@@ -90,8 +90,8 @@ class RegisterActivity : AppCompatActivity() {
                             ).show()
                         }
                     }
-                } 
-                
+                }
+
             }
         }
     }

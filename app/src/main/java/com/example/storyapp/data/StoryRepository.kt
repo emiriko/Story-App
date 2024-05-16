@@ -11,7 +11,6 @@ import com.example.storyapp.data.local.entity.StoryEntity
 import com.example.storyapp.data.local.room.StoryDatabase
 import com.example.storyapp.data.remote.api.StoryService
 import com.example.storyapp.data.remote.response.AddNewStoryResponse
-import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.utils.Helper
 import com.example.storyapp.utils.wrapEspressoIdlingResource
 import okhttp3.MediaType.Companion.toMediaType
@@ -21,9 +20,17 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.File
 
-class StoryRepository private constructor(private val storyService: StoryService, private val storyDatabase: StoryDatabase) {
-    suspend fun addNewStory(file: File, description: String, latitude: Double?, longitude: Double?): Result<AddNewStoryResponse> {
-        return wrapEspressoIdlingResource { 
+class StoryRepository private constructor(
+    private val storyService: StoryService,
+    private val storyDatabase: StoryDatabase
+) {
+    suspend fun addNewStory(
+        file: File,
+        description: String,
+        latitude: Double?,
+        longitude: Double?
+    ): Result<AddNewStoryResponse> {
+        return wrapEspressoIdlingResource {
             try {
                 val requestBody = description.toRequestBody("text/plain".toMediaType())
                 val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
@@ -33,8 +40,13 @@ class StoryRepository private constructor(private val storyService: StoryService
                     requestImageFile
                 )
                 val response =
-                    storyService.addNewStory(description = requestBody, photo = multipartBody, latitude = latitude, longitude = longitude)
-                
+                    storyService.addNewStory(
+                        description = requestBody,
+                        photo = multipartBody,
+                        latitude = latitude,
+                        longitude = longitude
+                    )
+
                 Result.Success(response)
             } catch (error: HttpException) {
                 Result.Error(Helper.getErrorMessage(error))
@@ -56,16 +68,6 @@ class StoryRepository private constructor(private val storyService: StoryService
             }
         ).liveData
     }
-    
-    fun getAllStories() = liveData {
-        emit(Result.Loading)
-        try {
-            val response = storyService.getAllStories()
-            emit(Result.Success(response))
-        } catch (e: HttpException) {
-            emit(Result.Error(Helper.getErrorMessage(e)))
-        }
-    }
 
     fun getDetailStory(id: String) = liveData {
         emit(Result.Loading)
@@ -76,7 +78,7 @@ class StoryRepository private constructor(private val storyService: StoryService
             emit(Result.Error(Helper.getErrorMessage(error)))
         }
     }
-    
+
     fun getAllStoriesWithLocation() = liveData {
         emit(Result.Loading)
         try {
@@ -95,5 +97,9 @@ class StoryRepository private constructor(private val storyService: StoryService
             instance ?: synchronized(this) {
                 instance ?: StoryRepository(storyService, storyDatabase).also { instance = it }
             }
+
+        fun clearInstance() {
+            instance = null
+        }
     }
 }

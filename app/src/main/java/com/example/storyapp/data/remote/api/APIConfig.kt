@@ -1,7 +1,6 @@
 package com.example.storyapp.data.remote.api
 
 import com.example.storyapp.BuildConfig
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class APIConfig {
     companion object {
-        var BASE_URL: String = BuildConfig.API_BASE_URL 
+        var BASE_URL: String = BuildConfig.API_BASE_URL
 
         fun getStoryService(token: String): StoryService {
             val loggingInterceptor = if (BuildConfig.DEBUG) {
@@ -19,7 +18,7 @@ class APIConfig {
             }
 
             val authInterceptor = AuthInterceptor(token)
-            
+
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(authInterceptor)

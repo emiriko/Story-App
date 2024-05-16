@@ -10,10 +10,10 @@ import com.example.storyapp.data.local.entity.RemoteKeysEntity
 interface RemoteKeysDao {
     @Query("SELECT * FROM remote_keys WHERE id = :id")
     suspend fun getRemoteKeysById(id: String): RemoteKeysEntity?
-    
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertKeys(keys: List<RemoteKeysEntity>)
-    
+
     @Query("DELETE FROM remote_keys")
     suspend fun deleteAllRemoteKeys()
 }

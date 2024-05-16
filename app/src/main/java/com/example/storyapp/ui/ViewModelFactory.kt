@@ -40,11 +40,11 @@ class ViewModelFactory private constructor(private val applicationContext: Conte
         HomeViewModel::class.java -> HomeViewModel(
             Injection.provideStoryRepository(applicationContext),
         ) as T
-        
+
         MapsViewModel::class.java -> MapsViewModel(
             Injection.provideStoryRepository(applicationContext)
         ) as T
-        
+
         LoginViewModel::class.java -> LoginViewModel(
             Injection.provideUserRepository(),
             Injection.provideUserPreferences(applicationContext)

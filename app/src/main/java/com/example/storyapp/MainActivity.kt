@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         navHostFragment.navController
     }
-    
+
     private val userViewModel by viewModels<UserViewModel> {
         ViewModelFactory.getInstance(this)
     }
