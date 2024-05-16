@@ -19,14 +19,15 @@ activity = "1.8.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesMaps = "18.2.0"
 playServiceLocation = "21.2.0"
+archCoreTesting = "2.1.0"
+ktxCoroutinesTest = "1.6.1"
+mockito = "3.12.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
@@ -35,6 +36,12 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-room = { group = "androidx.room", name = "room-runtime", version = "2.5.2" }
+androidx-roomCompiler = { group = "androidx.room", name = "room-compiler", version = "2.5.2" }
+androidx-roomKtx = { group = "androidx.room", name = "room-ktx", version = "2.4.0" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version = "4.16.0" }
 circleimageview = { group = "de.hdodenhof", name = "circleimageview", version = "3.1.0" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.10.0" }
@@ -42,15 +49,17 @@ retrofitGson = { group = "com.squareup.retrofit2", name = "converter-gson", vers
 loggingInterceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version = "4.9.1" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version = "1.0.0" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.5.2" }
-androidx-room = { group = "androidx.room", name = "room-runtime", version = "2.5.2" }
-androidx-roomCompiler = { group = "androidx.room", name = "room-compiler", version = "2.5.2" }
-androidx-roomKtx = { group = "androidx.room", name = "room-ktx", version = "2.4.0" }
-androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 lottie = { group = "com.airbnb.android", name = "lottie", version = "4.1.0" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServiceLocation" }
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version = "3.1.0" }
 room-paging = { group = "androidx.room", name = "room-paging", version = "2.4.0" }
+
+# Testing
+core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "ktxCoroutinesTest" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
